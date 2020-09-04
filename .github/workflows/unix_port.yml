@@ -13,8 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        submodules: recursive    
+    - name: update submodules
+      run: git submodule update --init --recursive  
     - name: make
       run: make -j $(nproc) -C ports/unix
     
