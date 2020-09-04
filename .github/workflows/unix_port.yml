@@ -27,10 +27,10 @@ jobs:
     - name: Run advanced_demo
       run: >
         echo "
-          import gc,utime;
-          utime.sleep(5);
-          gc.collect();
-          utime.sleep(5)
+        import gc,utime;
+        utime.sleep(5);
+        gc.collect();
+        utime.sleep(5)
         " | 
         ports/unix/micropython -i lib/lv_bindings/examples/advanced_demo.py
     
