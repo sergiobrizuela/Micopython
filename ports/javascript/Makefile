@@ -27,8 +27,8 @@ JSFLAGS ?= --source-map-base http://localhost:8000
 CFLAGS += -std=gnu99 -Wall -Wno-error -Wdouble-promotion -Wfloat-conversion
 CFLAGS += -DNDEBUG 
 ifneq ($(EM_DEBUG),)
-CFLAGS += -g3 -O1
-LDFLAGS += -g3
+CFLAGS += -g3 -O0
+LDFLAGS += -g3 -O0
 else
 CFLAGS += -O3
 endif
