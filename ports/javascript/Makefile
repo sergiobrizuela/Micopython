@@ -25,8 +25,13 @@ INC += -I$(BUILD)
 JSFLAGS ?= --source-map-base http://localhost:8000
 
 CFLAGS += -std=gnu99 -Wall -Wno-error -Wdouble-promotion -Wfloat-conversion
-CFLAGS += -O3 -DNDEBUG -gsource-map
-LDFLAGS += -gsource-map
+CFLAGS += -DNDEBUG 
+ifneq ($(EM_DEBUG),)
+CFLAGS += -g3 -O1
+LDFLAGS += -g3
+else
+CFLAGS += -O3
+endif
 CFLAGS += $(INC)
 
 CFLAGS += -fdata-sections -ffunction-sections

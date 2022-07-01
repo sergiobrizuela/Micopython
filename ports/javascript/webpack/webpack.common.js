@@ -45,7 +45,6 @@ module.exports = {
                 "lvgl.html",
                 path.resolve(portDirectory, "build", "micropython.js"),
                 path.resolve(portDirectory, "build", "firmware.wasm"),
-                path.resolve(portDirectory, "build", "firmware.wasm.map"),
                 path.resolve(portDirectory, "docs", "wasm_file_api.js"),
             ]
         }),

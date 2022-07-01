@@ -421,6 +421,10 @@ lv.scr_load(scr)
         container.element.classList.add("canvas-container");
         const canvas = document.createElement("canvas");
         canvas.setAttribute("id", "canvas");
+        canvas.setAttribute("tabindex", "-1");
+        canvas.addEventListener("click", () => {
+            canvas.focus()
+        });
         container.element.appendChild(canvas);
         const resizeHandler = debounce(() => {
             let canvasW = parseInt(canvas.getAttribute("width"));
