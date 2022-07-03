@@ -31,6 +31,7 @@
 #include <assert.h>
 #include "genhdr/mpversion.h"
 
+#include "py/builtin.h"
 #include "py/compile.h"
 #include "py/runtime.h"
 #include "py/repl.h"

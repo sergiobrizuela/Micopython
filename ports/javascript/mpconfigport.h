@@ -189,17 +189,7 @@ extern const struct _mp_obj_module_t mp_module_lodepng;
 #else
 #include "lib/lv_bindings/lvgl/src/misc/lv_gc.h"
 #endif
-#define MICROPY_PY_LVGL_DEF \
-    { MP_OBJ_NEW_QSTR(MP_QSTR_lvgl), (mp_obj_t)&mp_module_lvgl },\
-    { MP_OBJ_NEW_QSTR(MP_QSTR_SDL), (mp_obj_t)&mp_module_SDL },\
-    { MP_OBJ_NEW_QSTR(MP_QSTR_lodepng), (mp_obj_t)&mp_module_lodepng },
-#else
-#define MICROPY_PY_LVGL_DEF
 #endif
-
-#define MICROPY_PORT_BUILTIN_MODULES \
-    { MP_ROM_QSTR(MP_QSTR_utime), MP_ROM_PTR(&mp_module_utime) }, \
-    MICROPY_PY_LVGL_DEF \
 
 // #define MICROPY_EVENT_POLL_HOOK {ets_event_poll();}
 #if MICROPY_PY_THREAD
@@ -249,10 +239,6 @@ extern const struct _mp_obj_module_t mp_module_lodepng;
 typedef int mp_int_t; // must be pointer size
 typedef unsigned mp_uint_t; // must be pointer size
 typedef long mp_off_t;
-
-// extra built in names to add to the global namespace
-#define MICROPY_PORT_BUILTINS \
-    { MP_ROM_QSTR(MP_QSTR_open), MP_ROM_PTR(&mp_builtin_open_obj) },
 
 // We need to provide a declaration/definition of alloca()
 #include <alloca.h>
