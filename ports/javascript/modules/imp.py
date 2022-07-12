@@ -10,7 +10,7 @@ _warned_about_vars = False
 
 
 # The custom importer will never attempt to fetch the following modules online.
-_js_import_blacklist = [ "ttgo", "ili9XXX", "machine" ]
+_js_import_blacklist = [ "ttgo", "ili9XXX", "machine", "lvgl" ]
 
 # Deprecated since version 3.4: Use types.ModuleType instead.
 # but micropython aims toward full 3.4
@@ -49,7 +49,7 @@ def importer(name, *argv, **kw):
                 except:
                     continue
         else:
-            raise ImportError('module not found')
+            raise ImportError('module not found "' + name + '"')
 
     # build a empty module
     mod = types.ModuleType(name)
