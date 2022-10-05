@@ -96,7 +96,7 @@ function update_query_string( uri, key, value ) {
 
 var editor_cmd=0;
 
-var snippetbin_url = "https://snippet-bin.herokuapp.com";
+var snippetbin_url = "http://139.59.153.8:3000/";
 
 const query_revision = "script_direct";
 
