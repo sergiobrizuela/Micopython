@@ -96,7 +96,7 @@ function update_query_string( uri, key, value ) {
 
 var editor_cmd=0;
 
-var snippetbin_url = "https://snippet-bin.herokuapp.com";
+var snippetbin_url = "https://forum.lvgl.io:8443";
 
 const query_revision = "script_direct";
 
