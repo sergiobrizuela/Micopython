@@ -24,6 +24,8 @@ INC += -I$(BUILD)
 #default debug options for browser debugger
 JSFLAGS ?= --source-map-base http://localhost:8000
 
+CFLAGS_MOD += -DMICROPY_SDL=1
+
 CFLAGS += -std=gnu99 -Wall -Wno-error -Wdouble-promotion -Wfloat-conversion
 CFLAGS += -DNDEBUG 
 ifneq ($(EM_DEBUG),)
@@ -53,9 +55,6 @@ SRC_SHARED = $(addprefix shared/,\
 
 
 LIB_SRC_C = $(addprefix lib/,\
-    lv_bindings/driver/SDL/sdl_common.c \
-    lv_bindings/driver/SDL/sdl.c \
-	lv_bindings/driver/SDL/modSDL.c \
 	$(LIB_SRC_C_EXTRA) \
 	)
 
