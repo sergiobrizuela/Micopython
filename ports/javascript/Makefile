@@ -62,6 +62,7 @@ SRC_C = \
 	main.c \
 	mphalport.c \
 	modutime.c \
+	modjswindow.c \
 	lv_font_heb_16.c \
 
 ifdef WASM_FILE_API
