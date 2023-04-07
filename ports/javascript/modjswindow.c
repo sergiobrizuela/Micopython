@@ -24,13 +24,27 @@ struct py_jswindow_cb_holder {
   int period;
 };
 
+STATIC void invoke_cb(struct py_jswindow_cb_holder *holder, mp_obj_t cb_obj) {
+  nlr_buf_t nlr;
+  if(nlr_push(&nlr) == 0) {
+    mp_call_function_1(cb_obj, MP_OBJ_FROM_PTR(holder));
+    nlr_pop();
+  } else {
+    // uncaught exception
+    mp_obj_base_t *exc = (mp_obj_base_t *)nlr.ret_val;
+    mp_printf(MICROPY_ERROR_PRINTER, "Unhandled exception in setTimeout/setInterval\n");
+    mp_obj_print_exception(MICROPY_ERROR_PRINTER, MP_OBJ_FROM_PTR(exc));
+  }
+
+}
+
 STATIC void invoke_py_setInterval_cb(void *arg) {
   struct py_jswindow_cb_holder *holder = (struct py_jswindow_cb_holder *)arg;
   int period = holder->period;
   if(period < 0)
     return;
   emscripten_async_call(invoke_py_setInterval_cb, holder, period);
-  mp_call_function_0(holder->cb_obj);
+  invoke_cb(holder, holder->cb_obj);
 }
 
 // same as setInterval but skip triggering ourselves again
@@ -39,7 +53,7 @@ STATIC void invoke_py_setTimeout_cb(void *arg) {
   int period = holder->period;
   if(period < 0)
     return;
-  mp_call_function_0(holder->cb_obj);
+  invoke_cb(holder, holder->cb_obj);
 }
 
 STATIC struct py_jswindow_cb_holder *js_jswindow_createHolder(mp_obj_t cb_obj, mp_obj_t period_obj) {
@@ -71,7 +85,8 @@ STATIC mp_obj_t js_jswindow_clearTimeout(mp_obj_t holder_obj) {
   if (holder_obj == NULL || holder_obj == mp_const_none)
     mp_raise_type(&mp_type_TypeError);
   struct py_jswindow_cb_holder *holder = MP_OBJ_TO_PTR(holder_obj);
-  holder->period = -1;
+  if(holder != NULL)
+    holder->period = -1;
   return mp_const_none;
 }
 
