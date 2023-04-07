@@ -27,7 +27,7 @@ JSFLAGS ?= --source-map-base http://localhost:8000
 CFLAGS_MOD += -DMICROPY_SDL=1
 
 CFLAGS += -std=gnu99 -Wall -Wno-error -Wdouble-promotion -Wfloat-conversion
-CFLAGS += -DNDEBUG 
+CFLAGS += -DNDEBUG
 ifneq ($(EM_DEBUG),)
 CFLAGS += -g3 -O0
 LDFLAGS += -g3 -O0
@@ -91,7 +91,7 @@ OBJ += $(addprefix $(BUILD)/, $(SRC_SHARED:.c=.o))
 OBJ += $(addprefix $(BUILD)/, $(SRC_C:.c=.o))
 OBJ += $(addprefix $(BUILD)/, $(LIB_SRC_C:.c=.o))
 
-JSFLAGS += -s ASYNCIFY -s 'ASYNCIFY_IMPORTS=["mp_js_sleep_with_intr"]' -s WASM=1 -s USE_SDL=2
+JSFLAGS += -s ASYNCIFY -s 'ASYNCIFY_IMPORTS=["mp_js_sleep_with_intr"]' -s WASM=1 -s USE_SDL=2 -s ALLOW_MEMORY_GROWTH=1
 JSFLAGS += -s EXPORTED_FUNCTIONS="['_mp_js_init', '_mp_js_init_repl', '_mp_js_do_str', '_mp_js_process_char', '_mp_hal_get_interrupt_char', '_mp_sched_keyboard_interrupt', '_mp_handle_pending']" -s EXPORTED_RUNTIME_METHODS="['ccall', 'cwrap']" -s --memory-init-file 0 --js-library library.js
 
 all: $(BUILD)/micropython.js
