@@ -3,27 +3,13 @@
 #include "py/runtime.h"
 #include "emscripten.h"
 
-/*
-
-int setInterval(func_t cb, int period) {
-  return EM_ASM_INT({ return setInterval($0, $1); }, cb, period);  // The part in brace is actual javascript
-};
-int setTimeout(func_t cb, int period) {
-  return EM_ASM_INT({ return setTimeout($0, $1); }, cb, period);
-};
-int clearInterval(int id) {
-  return EM_ASM_INT({ return clearInterval($0); }, id);
-};
-int clearTimeout(int id) {
-  return EM_ASM_INT({ return clearTimeout($0); }, id);
-};
-*/
-
+/* Holder object used for bundling cb/period to emscripten_async_call */
 struct py_jswindow_cb_holder {
   mp_obj_t cb_obj;
   int period;
 };
 
+/* Helper function that attempts to invoke the callback and catches exceptions */
 STATIC void invoke_cb(struct py_jswindow_cb_holder *holder, mp_obj_t cb_obj) {
   nlr_buf_t nlr;
   if(nlr_push(&nlr) == 0) {
@@ -35,9 +21,9 @@ STATIC void invoke_cb(struct py_jswindow_cb_holder *holder, mp_obj_t cb_obj) {
     mp_printf(MICROPY_ERROR_PRINTER, "Unhandled exception in setTimeout/setInterval\n");
     mp_obj_print_exception(MICROPY_ERROR_PRINTER, MP_OBJ_FROM_PTR(exc));
   }
-
 }
 
+/* Called by emscripten_async_call after the desired period has passed */
 STATIC void invoke_py_setInterval_cb(void *arg) {
   struct py_jswindow_cb_holder *holder = (struct py_jswindow_cb_holder *)arg;
   int period = holder->period;
@@ -56,6 +42,7 @@ STATIC void invoke_py_setTimeout_cb(void *arg) {
   invoke_cb(holder, holder->cb_obj);
 }
 
+/* Check if valid objects were provided and create a holder */
 STATIC struct py_jswindow_cb_holder *js_jswindow_createHolder(mp_obj_t cb_obj, mp_obj_t period_obj) {
 if(!mp_obj_is_callable(cb_obj))
     mp_raise_msg(&mp_type_TypeError, MP_ERROR_TEXT("not callable"));
@@ -68,6 +55,7 @@ if(!mp_obj_is_callable(cb_obj))
   return holder;
 }
 
+/* Create a holder, set up an async call after period ms, and return */
 STATIC mp_obj_t js_jswindow_setInterval(mp_obj_t cb_obj, mp_obj_t period_obj) {
   struct py_jswindow_cb_holder *holder = js_jswindow_createHolder(cb_obj, period_obj);
   emscripten_async_call(invoke_py_setInterval_cb, holder, holder->period);
