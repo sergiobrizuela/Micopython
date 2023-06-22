@@ -31,28 +31,28 @@ jobs:
         run: embuilder build sdl2
       - name: Build FreeType
         run: ./build_freetype.sh
-        working-directory: ports/javascript/scripts
+        working-directory: ports/webassembly/scripts
       - name: Build Rlottie
         run: ./build_rlottie.sh
-        working-directory: ports/javascript/scripts
+        working-directory: ports/webassembly/scripts
       - name: Update submodules
-        run: make -j $(nproc) -C ports/javascript submodules
+        run: make -j $(nproc) -C ports/webassembly submodules
       - name: Build mpy-cross
         run: make -j $(nproc) -C mpy-cross
       - name: Install node modules
         run: npm install
-        working-directory: ports/javascript
+        working-directory: ports/webassembly
       - name: Build workers
         run: npm run clean
-        working-directory: ports/javascript
+        working-directory: ports/webassembly
       - name: Build the javascript port
-        run: make -j $(nproc) -C ports/javascript
+        run: make -j $(nproc) -C ports/webassembly
       - name: Build frontend
         run: npm run bundle
-        working-directory: ports/javascript
+        working-directory: ports/webassembly
       - name: Clean up unneeded files
         run: rm -rf build .cache node_modules
-        working-directory: ports/javascript
+        working-directory: ports/webassembly
       - name: Retrieve version
         run: |
           echo "::set-output name=VERSION_NAME::$(lib/lv_bindings/lvgl/scripts/find_version.sh)"
@@ -63,6 +63,6 @@ jobs:
           token: ${{ secrets.LVGL_BOT_TOKEN }}
           commit-message: ${{ env.GITHUB_SHA }}
           branch: master
-          folder: ports/javascript/bundle_out
+          folder: ports/webassembly/bundle_out
           repository-name: lvgl/sim
-          target-folder: v${{ steps.version.outputs.VERSION_NAME }}/micropython/ports/javascript
+          target-folder: v${{ steps.version.outputs.VERSION_NAME }}/micropython/ports/webassembly
