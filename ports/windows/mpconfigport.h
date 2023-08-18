@@ -199,13 +199,6 @@ extern const struct _mp_obj_module_t mp_module_lvindev;
 extern const struct _mp_obj_module_t mp_module_SDL;
 
 #if MICROPY_PY_LVGL
-#ifndef MICROPY_INCLUDED_PY_MPSTATE_H
-#define MICROPY_INCLUDED_PY_MPSTATE_H
-#include "lib/lv_bindings/lvgl/src/misc/lv_gc.h"
-#undef MICROPY_INCLUDED_PY_MPSTATE_H
-#else
-#include "lib/lv_bindings/lvgl/src/misc/lv_gc.h"
-#endif
 #define MICROPY_PY_LVGL_DEF { MP_OBJ_NEW_QSTR(MP_QSTR_lvgl), (mp_obj_t)&mp_module_lvgl },
     #if MICROPY_PY_LVGL_SDL
     #define MICROPY_PY_LVGL_SDL_DEF { MP_OBJ_NEW_QSTR(MP_QSTR_SDL), (mp_obj_t)&mp_module_SDL },
@@ -213,7 +206,6 @@ extern const struct _mp_obj_module_t mp_module_SDL;
     #define MICROPY_PY_LVGL_SDL_DEF
     #endif
 #else
-    #define LV_ROOTS
     #define MICROPY_PY_LVGL_DEF
 #endif
 
