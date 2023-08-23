@@ -31,7 +31,7 @@ CFLAGS += -std=gnu99 -Wall -Wno-error -Wdouble-promotion -Wfloat-conversion
 CFLAGS += -DNDEBUG
 ifneq ($(EM_DEBUG),)
 CFLAGS += -g3 -O0
-LDFLAGS += -g3 -O0
+LDFLAGS += -g3 -O0 -sSAFE_HEAP=1 -sASSERTIONS=2
 else
 CFLAGS += -Os
 endif
@@ -94,6 +94,7 @@ OBJ += $(addprefix $(BUILD)/, $(SRC_C:.c=.o))
 OBJ += $(addprefix $(BUILD)/, $(LIB_SRC_C:.c=.o))
 
 JSFLAGS += -s ASYNCIFY
+JSFLAGS += -s ASYNCIFY_STACK_SIZE=81920
 JSFLAGS += -s 'ASYNCIFY_IMPORTS=["mp_js_sleep_with_intr"]' -s WASM=1 -s USE_SDL=2 -s ALLOW_MEMORY_GROWTH=1
 JSFLAGS += -s EXPORTED_FUNCTIONS="['_mp_js_init', '_mp_js_init_repl', '_mp_js_do_str', '_mp_js_process_char', '_mp_hal_get_interrupt_char', '_mp_sched_keyboard_interrupt', '_mp_handle_pending']"
 JSFLAGS += -s EXPORTED_RUNTIME_METHODS="['ccall', 'cwrap']"

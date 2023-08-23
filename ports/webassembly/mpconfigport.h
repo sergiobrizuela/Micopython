@@ -163,16 +163,6 @@
 
 #define MP_SSIZE_MAX (0x7fffffff)
 
-#if MICROPY_PY_LVGL
-#ifndef MICROPY_INCLUDED_PY_MPSTATE_H
-#define MICROPY_INCLUDED_PY_MPSTATE_H
-#include "lib/lv_bindings/lvgl/src/misc/lv_gc.h"
-#undef MICROPY_INCLUDED_PY_MPSTATE_H
-#else
-#include "lib/lv_bindings/lvgl/src/misc/lv_gc.h"
-#endif
-#endif
-
 // #define MICROPY_EVENT_POLL_HOOK {ets_event_poll();}
 #if MICROPY_PY_THREAD
 #define MICROPY_EVENT_POLL_HOOK \
