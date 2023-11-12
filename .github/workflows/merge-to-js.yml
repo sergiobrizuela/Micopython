@@ -19,7 +19,7 @@ jobs:
         if: steps.wait-for-build.outputs.conclusion == 'failure'
       - uses: actions/checkout@master
       - name: Merge to lvgl_javascript branch
-        uses: devmasx/merge-branch@v1.1.0
+        uses: devmasx/merge-branch@1.4.0
         with:
           type: now
           target_branch: 'lvgl_javascript_v9'
